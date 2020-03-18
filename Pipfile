@@ -4,13 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+flake8 = "*"
 pylint = "*"
+mock = "*"
+pytest = "*"
+Sphinx = "*"
+sphinx-autobuild = "*"
 
 [packages]
 requests = "*"
 python-jose = "*"
-mock = "*"
-
 
 [requires]
 python_version = "3"

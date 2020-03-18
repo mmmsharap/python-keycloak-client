@@ -62,4 +62,3 @@ class Realm(KeycloakAdminEntity):
     def groups(self):
         from keycloak.admin.groups import Groups
         return Groups(realm_name=self._name, client=self._client)
-

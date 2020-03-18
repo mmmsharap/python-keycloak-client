@@ -89,5 +89,8 @@ class ClientRole(KeycloakAdminEntity):
         self._realm_name = realm_name
         self._role_name = role_name
 
-        super(ClientRole, self).__init__(url=self.get_path("single", realm=realm_name, id=client_id, role_name=role_name),
+        super(ClientRole, self).__init__(url=self.get_path("single",
+                                                           realm=realm_name,
+                                                           id=client_id,
+                                                           role_name=role_name),
                                          client=client)

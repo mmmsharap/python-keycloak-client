@@ -19,7 +19,7 @@ class KeycloakRealm(object):
         :param str server_url: The base URL where the Keycloak server can be
             found
         :param str realm_name: REALM name
-        :param requests.Session session: Optional requests session to use
+        :param requests.Sessionpipe session: Optional requests session to use
         """
         self._server_url = server_url
         self._realm_name = realm_name

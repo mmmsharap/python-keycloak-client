@@ -1,8 +1,6 @@
 from unittest import TestCase
 
 import mock
-import requests
-from requests import Session
 
 from keycloak.client import KeycloakClient
 

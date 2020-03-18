@@ -181,7 +181,7 @@ class KeycloakOpenidConnect(WellKnownMixin):
         :return: Access token response
         """
         token = self._token_request(grant_type='authorization_code', code=code,
-                                   redirect_uri=redirect_uri)
+                                    redirect_uri=redirect_uri)
         return Token(token, self)
 
     def password_credentials(self, username, password, **kwargs):
@@ -189,15 +189,15 @@ class KeycloakOpenidConnect(WellKnownMixin):
         Retrieve access token by 'password credentials' grant.
 
         https://tools.ietf.org/html/rfc6749#section-4.3
-
+continuation
         :param str username: The user name to obtain an access token for
         :param str password: The user's password
         :rtype: dict
         :return: Access token response
         """
         token = self._token_request(grant_type='password',
-                                   username=username, password=password,
-                                   **kwargs)
+                                    username=username, password=password,
+                                    **kwargs)
         return Token(token, self)
 
     def client_credentials(self, **kwargs):
@@ -316,4 +316,3 @@ class Token:
             return False
         except ExpiredSignatureError:
             return True
-

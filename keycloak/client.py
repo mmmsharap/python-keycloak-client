@@ -4,10 +4,7 @@ from requests.exceptions import HTTPError
 
 from keycloak.exceptions import KeycloakClientError
 
-try:
-    from urllib.parse import urljoin  # noqa: F401
-except ImportError:
-    from urlparse import urljoin  # noqa: F401
+from urllib.parse import urljoin
 
 import requests
 

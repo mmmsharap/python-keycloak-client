@@ -2,7 +2,7 @@ import os
 
 from setuptools import find_packages, setup
 
-VERSION = '0.2.3-dev'
+VERSION = '0.2.4-dev'
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
@@ -10,7 +10,6 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-EXCLUDED_PACKAGES = []
 TESTS_REQUIRE = [
     'pytest',
     'pytest-cov',
@@ -21,8 +20,7 @@ setup(
     name='python-keycloak-client',
     version=VERSION,
     long_description=README,
-    package_dir={'': 'src'},
-    packages=find_packages('src', EXCLUDED_PACKAGES),
+    packages=find_packages(exclude=("tests", "docs")),
     extras_require={
         'dev': [
             'bumpversion==0.5.3',
@@ -34,7 +32,7 @@ setup(
         ],
     },
     setup_requires=[
-        'pytest-runner>=4.0,<5'
+        'pytest-runner>=4.0'
     ],
     install_requires=[
         'requests',
