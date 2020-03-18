@@ -1,10 +1,8 @@
 import os
-import sys
 
 from setuptools import find_packages, setup
 
 VERSION = '0.2.3-dev'
-AIO_COMPATIBLE = sys.version_info >= (3, 5, 3)
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
@@ -18,13 +16,6 @@ TESTS_REQUIRE = [
     'pytest-cov',
     'mock>=2.0',
 ]
-
-if AIO_COMPATIBLE:
-    TESTS_REQUIRE += [
-        'asynctest',
-    ]
-else:
-    EXCLUDED_PACKAGES.append('keycloak.aio')
 
 setup(
     name='python-keycloak-client',
@@ -41,9 +32,6 @@ setup(
             'Sphinx==1.4.4',
             'sphinx-autobuild==0.6.0',
         ],
-        'aio': [
-            'aiohttp>=3.4.4,<4; python_full_version>="3.5.3"'
-        ]
     },
     setup_requires=[
         'pytest-runner>=4.0,<5'
