@@ -21,12 +21,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -U pip
-          pip install -U wheel setuptools
-          pip install flake8 codecov
+          pip install -U pipenv
+          pipenv install --dev
       - name: Flake8
         run: |
-          flake8 src/keycloak tests/keycloak
+          pipenv run flake8 src/keycloak tests/keycloak
       - name: Test with pytest
         run: |
-          python setup.py test --addopts "--cov=keycloak"
+          pipenv run pytest
