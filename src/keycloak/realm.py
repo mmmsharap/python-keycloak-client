@@ -14,17 +14,16 @@ class KeycloakRealm(object):
     _headers = None
     _client = None
 
-    def __init__(self, server_url, realm_name, headers=None):
+    def __init__(self, server_url, realm_name, session=None):
         """
         :param str server_url: The base URL where the Keycloak server can be
             found
         :param str realm_name: REALM name
-        :param dict headers: Optional extra headers to send with requests to
-            the server
+        :param requests.Session session: Optional requests session to use
         """
         self._server_url = server_url
         self._realm_name = realm_name
-        self._headers = headers
+        self._session = session
 
     @property
     def client(self):
@@ -33,7 +32,7 @@ class KeycloakRealm(object):
         """
         if self._client is None:
             self._client = KeycloakClient(server_url=self._server_url,
-                                          headers=self._headers)
+                                          session=self._session)
         return self._client
 
     @property

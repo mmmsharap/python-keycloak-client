@@ -17,12 +17,11 @@ class KeycloakClient(object):
     _session = None
     _headers = None
 
-    def __init__(self, server_url, headers=None, logger=None):
+    def __init__(self, server_url, session=None, logger=None):
         """
-         :param str server_url: The base URL where the Keycloak server can be
+        :param str server_url: The base URL where the Keycloak server can be
             found
-        :param dict headers: Optional extra headers to send with requests to
-            the server
+        :param requests.Session session: Custom requests session to use
         :param logging.Logger logger: Optional logger for client
         """
         if logger is None:
@@ -35,7 +34,7 @@ class KeycloakClient(object):
 
         self.logger = logger
         self._server_url = server_url
-        self._headers = headers or {}
+        self._session = session
 
     @property
     def server_url(self):
@@ -52,7 +51,6 @@ class KeycloakClient(object):
         """
         if self._session is None:
             self._session = requests.Session()
-            self._session.headers.update(self._headers)
         return self._session
 
     def get_full_url(self, path, server_url=None):
@@ -92,14 +90,3 @@ class KeycloakClient(object):
                 return response.json()
             except ValueError:
                 return response.content
-
-    def close(self):
-        if self._session is not None:
-            self._session.close()
-            self._session = None
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        self.close()

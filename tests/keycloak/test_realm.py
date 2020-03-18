@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 import mock
+import requests
 
 from keycloak.admin import KeycloakAdmin
 from keycloak.authz import KeycloakAuthz
@@ -13,8 +14,11 @@ from keycloak.uma import KeycloakUMA
 class KeycloakRealmTestCase(TestCase):
 
     def setUp(self):
+        self.headers = {'initial': 'header'}
+        self.session = requests.Session()
+        self.session.headers.update(self.headers)
         self.realm = KeycloakRealm('https://example.com', 'some-realm',
-                                   headers={'some': 'header'})
+                                   session=self.session)
 
     def test_instance(self):
         """
@@ -37,7 +41,7 @@ class KeycloakRealmTestCase(TestCase):
         self.assertEqual(client, self.realm.client)
 
         mocked_client.assert_called_once_with(server_url='https://example.com',
-                                              headers={'some': 'header'})
+                                              session=self.session)
 
     @mock.patch('keycloak.realm.KeycloakOpenidConnect', autospec=True)
     def test_openid_connect(self, mocked_openid_client):
