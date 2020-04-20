@@ -63,3 +63,8 @@ class Realm(KeycloakAdminEntity):
         from keycloak.admin.groups import Groups
         return Groups(realm_name=self._name, client=self._client)
 
+    @property
+    def roles(self):
+        from keycloak.admin.realmroles import RealmRoles
+        return RealmRoles(client=self._client,
+                          realm_name=self._name)
