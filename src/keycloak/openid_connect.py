@@ -1,3 +1,5 @@
+import logging
+
 from keycloak.mixins import WellKnownMixin
 
 try:
@@ -296,6 +298,8 @@ class KeycloakOpenidConnect(WellKnownMixin):
 
 
 class Token:
+    LOGGER = logging.getLogger('spam_application')
+
     def __init__(self, token, oidc: KeycloakOpenidConnect) -> None:
         self.oidc = oidc
         self.key = self.oidc.certs()['keys'][0]
@@ -306,14 +310,20 @@ class Token:
 
     def __call__(self):
         if self.is_expired():
-            print("Token expired, trying a new one")
+            self.LOGGER.debug("Token expired, trying refresh")
             self.token = self.oidc.refresh_token(self.token['refresh_token'])
+            self.LOGGER.info("Token refreshed")
         return self.token["access_token"]
 
     def is_expired(self):
         try:
-            self.oidc.decode_token(self.token['access_token'], self.key)
+            self._verify()
             return False
         except ExpiredSignatureError:
             return True
+        except:
+            self.LOGGER.error("Unable to verify token, using old one")
+            return False
 
+    def _verify(self):
+        return jwt.decode(self.token['access_token'], self.key)
