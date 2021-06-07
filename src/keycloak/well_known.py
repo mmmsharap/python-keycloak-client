@@ -1,7 +1,4 @@
-try:
-    from collections import Mapping
-except ImportError:
-    from collections.abc import Mapping
+from collections.abc import Mapping
 
 
 class KeycloakWellKnown(Mapping):
