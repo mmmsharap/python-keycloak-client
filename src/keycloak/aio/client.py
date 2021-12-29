@@ -50,13 +50,16 @@ class KeycloakClient(AsyncInit, SyncKeycloakClient):
             try:
                 response.raise_for_status()
             except aiohttp.client.ClientResponseError as cre:
-                text = await response.text(errors='replace')
-                self.logger.debug('{cre}; '
-                                  'Request info: {cre.request_info}; '
-                                  'Response headers: {cre.headers}; '
-                                  'Response status: {cre.status}; '
-                                  'Content: {text}'.format(cre=cre, text=text))
-                raise KeycloakClientError(original_exc=cre)
+                try:
+                    text = await response.text(errors='replace')
+                    self.logger.debug('{cre}; '
+                                      'Request info: {cre.request_info}; '
+                                      'Response headers: {cre.headers}; '
+                                      'Response status: {cre.status}; '
+                                      'Content: {text}'.format(cre=cre, text=text))
+                    raise KeycloakClientError(original_exc=cre)
+                except aiohttp.client.ClientConnectionError as cre:
+                    raise KeycloakClientError(original_exc=cre)
 
             try:
                 result = await response.json(content_type=None)
