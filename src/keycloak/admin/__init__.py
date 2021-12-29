@@ -55,9 +55,16 @@ class KeycloakAdminEntity(KeycloakAdminBase):
         :param kwargs: Entity parameters
         :return: Response
         """
-        resp = self._client.put(
+        from collections import OrderedDict
+        payload = OrderedDict()
+
+        for key in kwargs:
+            from keycloak.admin.clientroles import to_camel_case
+            if key in kwargs:
+                payload[to_camel_case(key)] = kwargs[key]
+        return self._client.put(
             url=self._client.get_full_url(self._url),
-            data=json.dumps(kwargs, sort_keys=True)
+            data=json.dumps(payload, sort_keys=True)
         )
         self._get()
         return resp
