@@ -197,10 +197,9 @@ class KeycloakOpenidConnect(WellKnownMixin):
         :rtype: dict
         :return: Access token response
         """
-        token = self._token_request(grant_type='password',
+        return self._token_request(grant_type='password',
                                    username=username, password=password,
                                    **kwargs)
-        return Token(token, self)
 
     def client_credentials(self, **kwargs):
         """
